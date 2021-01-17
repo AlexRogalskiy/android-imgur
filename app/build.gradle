@@ -1,0 +1,51 @@
+apply plugin: 'com.android.application'
+
+def loadString(name) {
+    hasProperty(name) ? "\"${getProperty(name)}\"" : ""
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.nispok.imgurdroid"
+        minSdkVersion 15
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+        buildConfigField "String", "IMGURDROID_CLIENT_ID", "${loadString("IMGURDROID_CLIENT_ID")}"
+        buildConfigField "String", "IMGURDROID_CLIENT_SECRET", "${loadString("IMGURDROID_CLIENT_SECRET")}"
+        buildConfigField "String", "IMGUR_API_BASE_URL", '"https://api.imgur.com/3"'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "retrofit.RestAdapter.LogLevel", "RETROFIT_LOGGING", 'retrofit.RestAdapter.LogLevel.FULL'
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "retrofit.RestAdapter.LogLevel", "RETROFIT_LOGGING", 'retrofit.RestAdapter.LogLevel.NONE'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.squareup.retrofit:retrofit:1.9.0'
+    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
+    implementation 'com.squareup.okhttp:okhttp:2.7.5'
+    implementation 'com.squareup.okio:okio:3.0.0-alpha.1'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.nispok:slidingtabs:1.0.0'
+    implementation 'de.halfbit:tinybus:3.0.2'
+}
